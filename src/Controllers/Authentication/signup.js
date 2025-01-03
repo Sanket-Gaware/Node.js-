@@ -1,7 +1,5 @@
 import User from "../../Models/User.model.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { jwtExpiry, jwtSecret } from "./jwtConfig.js";
 
 const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_.\d@$!%*?&]{2,29}$/;
 const passwordRegex =

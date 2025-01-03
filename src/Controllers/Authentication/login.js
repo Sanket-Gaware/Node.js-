@@ -17,7 +17,6 @@ const login = async (req, res) => {
     }
 
     const user = await User.findOne({ username });
-
     if (!user) {
       return res.status(409).json({ message: "User does not exist!" });
     }
@@ -32,10 +31,15 @@ const login = async (req, res) => {
       jwtSecret,
       { expiresIn: jwtExpiry }
     );
+    res.cookie("token", token, {
+      httpOnly: true, // Accessible only by web server
+      secure: process.env.NODE_ENV === "production", // HTTPS only in production
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    });
+
     return res.status(200).json({ success: true, token: token });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 };
-
 export default login;
